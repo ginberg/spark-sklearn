@@ -1,9 +1,18 @@
-## Parallelized GridSearchCV in Spark with StratifiedShuffleSplit
+## Parallelized GridSearchCV in Apache Spark with StratifiedShuffleSplit
 
 I have run into an issue with using https://github.com/databricks/spark-sklearn with a StratifiedShuffleSplit cross validator. Therefore I have created this class.
 
+
+### Use case
+
+It focuses on problems that have a small amount of data and that can be run in parallel.
+- for small datasets, it distributes the search for estimator parameters (`GridSearchCV` in scikit-learn), using Spark,
+- for datasets that do not fit in memory, we recommend using the [distributed implementation in Spark MLlib](https://spark.apache.org/docs/latest/api/python/pyspark.mllib.html).
+- StratifiedShuffleSplit is used as cross validator, this makes sure that every fold preserves the percentage of samples for each class and these folds are randomized. 
+
 ### Example
 
+```python
 from sklearn import svm, grid_search, datasets
 from sklearn.model_selection import StratifiedShuffleSplit
 from spark_gridsearch import GridSearchCVSSS
@@ -15,3 +24,8 @@ svr = svm.SVC()
 sss = StratifiedShuffleSplit(n_splits=10, test_size=0.5)
 clf = GridSearchCVSSS(sc, svr, parameters, cv=sss)
 clf.fit(iris.data, iris.target)
+```
+
+## License
+
+This package is released under the Apache 2.0 license.
