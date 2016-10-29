@@ -22,6 +22,9 @@ parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10]}
 
 svr = svm.SVC()
 sss = StratifiedShuffleSplit(n_splits=10, test_size=0.5)
+
+# first argument (sc) is the sparkContext, this should be available. You might need to import it yourself. 
+# I used it with jupyter notebook and pyspark where I don't need to import it in the notebook itself.
 clf = GridSearchCVSSS(sc, svr, parameters, cv=sss)
 clf.fit(iris.data, iris.target)
 ```
