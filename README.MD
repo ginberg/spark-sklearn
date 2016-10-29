@@ -7,7 +7,7 @@ I have run into an issue with using https://github.com/databricks/spark-sklearn 
 
 It focuses on problems that have a small amount of data and that can be run in parallel.
 - for small datasets, it distributes the search for estimator parameters (`GridSearchCV` in scikit-learn), using Spark,
-- for datasets that do not fit in memory, we recommend using the [distributed implementation in Spark MLlib](https://spark.apache.org/docs/latest/api/python/pyspark.mllib.html).
+- for datasets that do not fit in memory, I recommend using the [distributed implementation in Spark ML](https://spark.apache.org/docs/latest/api/python/pyspark.ml.html).
 - StratifiedShuffleSplit is used as cross validator, this makes sure that every fold preserves the percentage of samples for each class and these folds are randomized. 
 
 ### Example
